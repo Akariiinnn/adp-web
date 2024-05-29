@@ -8,7 +8,6 @@ export default function Home() {
     return (
         <main style={{padding: "30px"}}>
             <Container />
-            <UserSettings />
         </main>
     );
 }
