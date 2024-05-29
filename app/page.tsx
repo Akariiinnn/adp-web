@@ -1,5 +1,5 @@
-'use client';
-import React, {useEffect} from "react";
+'use client'
+import React from "react";
 import {Container} from "@/app/(components)/Container";
 
 export default function Home() {
