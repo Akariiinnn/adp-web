@@ -16,7 +16,7 @@ const AddPopup = () => {
     return (
 
         <Box >
-            <Button onPress={handleClose} w="8vh" style={{borderRadius: "999px"}} bg={"gray"} >
+            <Button onPress={handleClose} w="8vh" style={{borderRadius: "999px"}} bg={"gray"} ml={"auto"} >
                 <ButtonIcon as={AddIcon} />
             </Button>
             <Actionsheet isOpen={showActionsheet} onClose={handleClose} zIndex={999
