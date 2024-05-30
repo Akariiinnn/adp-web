@@ -1,4 +1,6 @@
+"use client";
 import React from 'react';
+import { useRouter } from 'next/navigation'
 import {
     Button,
     ButtonText,
@@ -13,6 +15,8 @@ import {
 } from "@gluestack-ui/themed";
 
 const SignupForm = () => {
+   const router = useRouter()
+
     const [formData, setFormData] = React.useState({
         username: '',
         email: '',
@@ -20,17 +24,48 @@ const SignupForm = () => {
         confirm_password: ''
     });
 
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
+    const handleInputChange = (e, name) => {
+        const { value } = e.target;
+        console.log({name, value, e});
         setFormData({
             ...formData,
             [name]: value
         });
     };
 
-    const handleSubmit = (e) => {
+    const handleBlur = (fieldName) => {
+        const inputValue = formData[fieldName];
+        if (inputValue.length < 3) {
+            alert(`Le mot de passe et le nom d'utilisateur doivent comporter plus de 3 caractères!`);
+        }
+    };
+
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Logique de traitement du formulaire
+
+        try {
+            const response = await fetch('http://localhost:3001/auth/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    username: formData.username,
+                    email: formData.email,
+                    password: formData.password
+                })
+            });
+
+            if (response.ok) {
+                router.push("/login");
+                console.log('User registered successfully');
+            } else {
+                console.error('Failed to register user');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
     };
 
     return (
@@ -49,8 +84,9 @@ const SignupForm = () => {
                             <InputField
                                 color={"var(--foreground-rgb)"}
                                 id="username"
-                                onChange={handleInputChange}
-                                name="username"/>
+                                onChange={(e) => handleInputChange(e, 'username')}
+                                onBlur={() => handleBlur('username')}
+                                value={formData.username}/>
                         </Input>
                     </VStack>
                     <VStack mt="$2">
@@ -58,14 +94,15 @@ const SignupForm = () => {
                         <Input
                             variant="underlined"
                             size="md"
+
                             isDisabled={false}
                             isInvalid={false}
                             isReadOnly={false}
                         >
                             <InputField id="email"
-                                        onChange={handleInputChange}
-                                        name="email"
-                                        color={"var(--foreground-rgb)"}/>
+                                   value={formData.email}
+                                   onChange={(e) => handleInputChange(e, "email")}
+                                   color={"var(--foreground-rgb)"}/>
                         </Input>
                     </VStack>
                     <VStack mt="$2">
@@ -77,9 +114,11 @@ const SignupForm = () => {
                             isInvalid={false}
                             isReadOnly={false}>
                             <InputField id="password"
-                                        onChange={handleInputChange}
-                                        name="password"
-                                        color={"var(--foreground-rgb)"}/>
+                                        value={formData.password || ''}
+                                        onChange={(e) => handleInputChange(e, "password")}
+                                        color={"var(--foreground-rgb)"}
+                                        onBlur={() => handleBlur('password')}
+                            type={"password"}/>
                         </Input>
                     </VStack>
                     <VStack mt="$2">
@@ -92,9 +131,10 @@ const SignupForm = () => {
                             isReadOnly={false}>
                             <InputField
                                 id="confirm_password"
-                                onChange={handleInputChange}
-                                name="confirm_password"
-                                color={"var(--foreground-rgb)"}/>
+                                value={formData.confirm_password || ''}
+                                onChange={(e) => handleInputChange(e, "confirm_password")}
+                                color={"var(--foreground-rgb)"}
+                                type={"password"}/>
                         </Input>
                     </VStack >
                     <Button size="md"
@@ -102,7 +142,8 @@ const SignupForm = () => {
                             action="primary"
                             isDisabled={false}
                             isFocusVisible={false}
-                            mt="$4">
+                            mt="$4"
+                            onPress={handleSubmit}>
                         <ButtonText>S'inscrire</ButtonText>
                     </Button>
                 </FormControl>
