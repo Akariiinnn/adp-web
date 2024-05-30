@@ -36,7 +36,7 @@ const SignupForm = () => {
     return (
         <Box>
             <Center>
-            <FormControl size="md" mt="$10" onSubmit={handleSubmit}>
+            <FormControl size="md" mt="$10" >
                 <Center><Heading color={"var(--foreground-rgb)"} >S'inscrire</Heading></Center>
                 <VStack mt="$4">
                     <Text color={"var(--foreground-rgb)"}>Nom</Text>

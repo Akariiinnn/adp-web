@@ -2,6 +2,7 @@
 
 import React from "react";
 import {Container} from "@/app/(components)/Container";
+
 import {Center} from "@gluestack-ui/themed";
 
 export default function Home() {
