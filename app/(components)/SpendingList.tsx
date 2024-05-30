@@ -33,7 +33,7 @@ function findItemById(id: number): Category {
 function SpendingList() {
 
     return (
-        <div style={{height: "80vh", overflow: 'scroll'}} className={"w-full h-42 overflow-x-scroll no-scrollbar"}>
+        <div style={{height: "80vh", overflow: 'scroll'}} className={"w-full h-42 no-scrollbar"}>
             <VStack>
                 {userSpendings.map((spending) => (
                     <Card size={"md"} variant={"elevated"} m={"$3"}>
