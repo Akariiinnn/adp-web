@@ -1,15 +1,13 @@
-import {ChangeEvent, FormEvent, useState} from "react";
+import React, {ChangeEvent, FormEvent, useState} from "react";
 import {
     Button,
-    ButtonText,
     Input,
     VStack,
     FormControl,
-    Heading,
     Text,
     InputField,
     Box,
-    Center
+    Center, ButtonIcon, AddIcon
 } from "@gluestack-ui/themed";
 
 
@@ -33,7 +31,6 @@ const UserSettings = () => {
         e.preventDefault();
         // Logique de traitement du formulaire
     };
-
     return (
         <Box>
             <Center>

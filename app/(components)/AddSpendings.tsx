@@ -1,22 +1,12 @@
 import React from 'react';
 import {
     Button,
-    ButtonText,
     Input,
-    VStack,
     FormControl,
     FormControlLabel,
     FormControlLabelText,
-    FormControlError,
-    FormControlHelper,
-    FormControlErrorIcon,
-    FormControlHelperText,
-    FormControlErrorText,
-    Heading,
-    Text,
     InputField,
     Box,
-    Center,
     Select,
     SelectTrigger,
     SelectIcon,
@@ -31,16 +21,42 @@ import categories from '@/fakedata/categories.json';
 const AddSpendings = () => {
     return (
         <Box>
+            <FormControl display="flex" flexDirection="row" >
 
-            {/*Category input*/}
-            <FormControl display="flex" flexDirection="row" width="50vh">
+                {/*Category input*/}
                 <Box px="$3">
                     <FormControlLabel>
                         <FormControlLabelText color={"var(--foreground-rgb)"}>Category</FormControlLabelText>
                     </FormControlLabel>
                     <Select>
                         <SelectTrigger variant="outline" size="md">
-                            <SelectInput placeholder="Choisissez la catégorie"/>
+                            <SelectInput placeholder="Recurrence"/>
+                            <SelectIcon mr="$3">
+                                <Icon as={ChevronDownIcon}/>
+                            </SelectIcon>
+                        </SelectTrigger>
+                        <SelectPortal>
+                            <SelectBackdrop/>
+                            <SelectContent>
+                                <SelectDragIndicatorWrapper>
+                                    <SelectDragIndicator/>
+                                </SelectDragIndicatorWrapper>
+                                <SelectItem label="Hebdomadaire" value={"weekly"}/>
+                                <SelectItem label="Mensuelle" value={"monthly"}/>
+                                <SelectItem label="Annuelle" value={"yearly"}/>
+                            </SelectContent>
+                        </SelectPortal>
+                    </Select>
+                </Box>
+
+                {/*Recurrence*/}
+                <Box px="$3">
+                    <FormControlLabel>
+                        <FormControlLabelText color={"var(--foreground-rgb)"}>Recurrence</FormControlLabelText>
+                    </FormControlLabel>
+                    <Select>
+                        <SelectTrigger variant="outline" size="md">
+                            <SelectInput placeholder="Category"/>
                             <SelectIcon mr="$3">
                                 <Icon as={ChevronDownIcon}/>
                             </SelectIcon>
@@ -71,6 +87,8 @@ const AddSpendings = () => {
                         <InputField color={"var(--foreground-rgb)"} placeholder=""/>
                     </Input>
                 </Box>
+
+
                 <Button
                     size="md"
                     variant="solid"
@@ -79,6 +97,7 @@ const AddSpendings = () => {
                     mx="$3"
                     isDisabled={false}
                     isFocusVisible={false}
+                    bg={"gray"}
                 >
                     <ButtonIcon as={AddIcon} />
                 </Button>
