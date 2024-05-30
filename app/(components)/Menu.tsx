@@ -2,15 +2,13 @@ import React from 'react'
 import {
     BadgeIcon,
     Button,
+    ButtonText,
     Center,
     Icon,
     Menu as GluestackMenu,
-    MenuIcon,
     MenuItem,
-    Image,
-    MenuItemLabel, ButtonText
+    MenuItemLabel
 } from "@gluestack-ui/themed";
-import hamburgere from '@/public/hamburgere.svg'
 
 export default function Menu() {
     return (
@@ -18,7 +16,7 @@ export default function Menu() {
             <div style={{width: "20%"}}>
                 <GluestackMenu
                     placement={"top"}
-                    trigger={({...triggerProps}) => {
+                    trigger={(triggerProps) => {
                         return (
                             <Button {...triggerProps} bg={"gray"} py="$2.5" action="secondary">
                                 <ButtonText fontSize="$sm" fontWeight="$medium">
@@ -28,7 +26,8 @@ export default function Menu() {
                         )
                     }}
                 >
-                    <MenuItem key={"Profil"} textValue={"Profil"}>
+
+                    <MenuItem key={"Profil"} textValue={"Profil"} href={"user-settings"}>
                         <Icon as={BadgeIcon}></Icon>
                         <MenuItemLabel size={"sm"}>Profil</MenuItemLabel>
                     </MenuItem>
