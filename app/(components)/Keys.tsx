@@ -3,6 +3,7 @@ import {VStack} from "@gluestack-ui/themed";
 import categories from '@/fakedata/categories.json'
 import spendings from '@/fakedata/spendings.json'
 import users from '@/fakedata/users.json'
+import {toFixedNumber} from "@react-stately/utils";
 
 const categoryColors = [
     "#FCFFA6",
@@ -24,7 +25,6 @@ const spendingPerCategory = categories.map(category => {
         .reduce((sum, spending) => sum + parseFloat(spending.value), 0);
     return {...category, totalSpending};
 })
-console.log(spendingPerCategory)
 
 export default function Keys() {
     return (
@@ -41,7 +41,7 @@ export default function Keys() {
                             borderRadius: "50%"
                         }}></div>
                         <span style={{marginRight: 30}}>{category.name}</span>
-                        <span>{percentage}%</span>
+                        <span>{percentage}% ({toFixedNumber(category.totalSpending, 2)}€)</span>
                     </div>
                 );
             })}
