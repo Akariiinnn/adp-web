@@ -1,9 +1,10 @@
-import {Box, Center, HStack, VStack} from "@gluestack-ui/themed";
+import {AddIcon, Box, Button, ButtonIcon, ButtonText, Center, HStack, VStack} from "@gluestack-ui/themed";
 import {Pie} from "@/app/(components)/Pie";
 import React from "react";
 import SpendingList from "@/app/(components)/SpendingList";
 import Keys from "@/app/(components)/Keys";
 import Menu from "@/app/(components)/Menu";
+import AddPopup from "@/app/(components)/AddPopup";
 
 export function Container() {
     return (
@@ -17,7 +18,10 @@ export function Container() {
                     <Keys />
                     <Menu />
                 </VStack>
-                <SpendingList/>
+                <VStack>
+                    <AddPopup/>
+                    <SpendingList/>
+                </VStack>
             </HStack>
         </Box>
     );
