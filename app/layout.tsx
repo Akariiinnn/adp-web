@@ -16,7 +16,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="gs">
+    <html lang="en" className="gs no-scrollbar">
       <body className={inter.className}>
         <Providers>
           <StyledJsxRegistry>{children}</StyledJsxRegistry>
