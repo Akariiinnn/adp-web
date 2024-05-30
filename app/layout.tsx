@@ -1,5 +1,5 @@
 import './globals.css';
-import {Inter} from 'next/font/google';
+import { Inter } from 'next/font/google';
 import { Providers } from './providers';
 import StyledJsxRegistry from './registry';
 
@@ -16,7 +16,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="gs">
+    <html lang="en" className="gs no-scrollbar">
       <body className={inter.className}>
         <Providers>
           <StyledJsxRegistry>{children}</StyledJsxRegistry>

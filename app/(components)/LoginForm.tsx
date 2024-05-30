@@ -1,24 +1,89 @@
-import {Box, Center, HStack, VStack} from "@gluestack-ui/themed";
-import {Pie} from "@/app/(components)/Pie";
-import React from "react";
-import SpendingList from "@/app/(components)/SpendingList";
-import Keys from "@/app/(components)/Keys";
-import Menu from "@/app/(components)/Menu";
+'use client';
+import {useState} from "react";
+import {
+    Button,
+    ButtonText,
+    Input,
+    VStack,
+    FormControl,
+    Heading,
+    Text,
+    InputField,
+    Box,
+    Center
+} from "@gluestack-ui/themed";
 
-export function Container() {
+
+const LoginForm = () => {
+
+    const [formData, setFormData] = useState({
+        email: '',
+        password: ''
+    });
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({
+            ...formData,
+            [name]: value
+        });
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        // Form submission logic
+    };
+
     return (
-        <Box flex={1} bg="var(--background-start-rgb)">
+        <Box>
             <Center>
-                <h1 color={"var(--foreground-rgb)"}>Arrête d'être pauvre </h1>
+                <FormControl size="lg" mt="$10" onSubmit={handleSubmit}>
+                    <Center><Heading color={"var(--foreground-rgb)"}>Se connecter</Heading></Center>
+                    <VStack mt="$4">
+                        <Text color={"var(--foreground-rgb)"}>Email</Text>
+                        <Input
+                            variant="underlined"
+                            size="md"
+                            isDisabled={false}
+                            isInvalid={false}
+                            isReadOnly={false}>
+                            <InputField
+                                color={"var(--foreground-rgb)"}
+                                id="email"
+                                onChange={handleInputChange}
+                                name="email"
+                            />
+                        </Input>
+                    </VStack>
+                    <VStack mt="$2">
+                        <Text color={"var(--foreground-rgb)"} >Mot de passe</Text>
+                        <Input
+                            variant="underlined"
+                            size="md"
+                            isDisabled={false}
+                            isInvalid={false}
+                            isReadOnly={false}>
+                            <InputField
+                                id="password"
+                                type="password"
+                                onChange={handleInputChange}
+                                name="password"
+                                color={"var(--foreground-rgb)"}
+                            />
+                        </Input>
+                    </VStack>
+                    <Button size="md"
+                            variant="solid"
+                            action="primary"
+                            isDisabled={false}
+                            isFocusVisible={false}
+                            mt="$4">
+                        <ButtonText>Se connecter</ButtonText>
+                    </Button>
+                </FormControl>
             </Center>
-            <HStack>
-                <VStack>
-                    <Pie />
-                    <Keys />
-                    <Menu />
-                </VStack>
-                <SpendingList/>
-            </HStack>
         </Box>
-    );
-}
+    )
+
+};
+export default LoginForm;
