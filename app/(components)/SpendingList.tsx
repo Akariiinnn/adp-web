@@ -2,13 +2,7 @@ import React from "react";
 import spendings from "@/fakedata/spendings.json";
 import {Card, Heading, Text, VStack} from "@gluestack-ui/themed";
 import categories from '@/fakedata/categories.json';
-
-interface Category {
-    ID: number;
-    name: string;
-    budget: string;
-    user_id: number;
-}
+import { Category, Spending } from '@/app/(models)/types';
 
 const categoryColors = [
     "#FCFFA6",
@@ -22,7 +16,7 @@ const categoryColors = [
 
 const thisUser = 1;
 
-const userSpendings = spendings.filter((spending) => spending.user_id === thisUser);
+const userSpendings: Spending[] = spendings.filter((spending: Spending) => spending.user_id === thisUser);
 
 const categoriesItems: Category[] = categories;
 
