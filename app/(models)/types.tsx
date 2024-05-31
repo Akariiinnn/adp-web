@@ -19,7 +19,7 @@ export interface User {
 }
 
 export interface Budget {
-    ID: string;
+    id: string;
     name: string;
     budget: number;
     spendings: Spending[];

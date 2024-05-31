@@ -24,7 +24,11 @@ function SpendingList() {
     const [isLoading, setIsLoading] = React.useState<boolean>(true);
 
     const processBudget = () => {
-        getBudget("2024-05-31").then((data) => {
+        let date = new Date();
+        let day = date.getDate();
+        let month = date.getMonth() + 1;
+        let year = date.getFullYear();
+        getBudget(`${year}-${month}-${day}`).then((data) => {
             setBudget(data);
             const allSpending = data.reduce((acc, budget) => acc.concat(budget.spendings), []);
             setUserSpendings(allSpending);
@@ -46,7 +50,7 @@ function SpendingList() {
         <div style={{height: "80vh", overflow: 'scroll'}} className={"w-full h-42 no-scrollbar"}>
             <VStack>
                 {userSpendings.map((spending) => (
-                    <Card size={"md"} variant={"elevated"} m={"$3"}>
+                    <Card size={"md"} variant={"elevated"} m={"$3"} key={spending.id}>
                         <Heading mb={"$1"}>{spending.name}</Heading>
                         <div style={{display: "flex", justifyContent: "space-between"}}>
                             <Text size={"sm"} color={"red"}>{spending.amount}€</Text>
