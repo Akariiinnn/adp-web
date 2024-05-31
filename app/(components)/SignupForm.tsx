@@ -13,6 +13,7 @@ import {
     Center
 } from "@gluestack-ui/themed";
 import {handleSignup} from "@/app/(service)/apiService";
+import Link from "next/link";
 
 
 
@@ -118,6 +119,11 @@ const SignupForm = () => {
                                 type={"password"}/>
                         </Input>
                     </VStack >
+                    <Box mt="$2">
+                        <Link color="#007bff" href={`/login`}>
+                            Déjà un compte ? Connectez-vous !
+                        </Link>
+                    </Box>
                     <Button size="md"
                             variant="solid"
                             action="primary"
