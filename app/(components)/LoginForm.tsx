@@ -12,6 +12,8 @@ import {
     Box,
     Center
 } from "@gluestack-ui/themed";
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
 
 
 const LoginForm = () => {
