@@ -21,17 +21,26 @@ function SpendingList() {
 
     const [budget, setBudget] = React.useState<Budget[]>([]);
     const [userSpendings, setUserSpendings] = React.useState<Spending[]>([]);
+    const [isLoading, setIsLoading] = React.useState<boolean>(true);
 
-    const processBudget = async () => {
-        setBudget(await getBudget("2021-10-01"));
-        setUserSpendings(budget[0].spendings);
+    const processBudget = () => {
+        getBudget("2024-05-31").then((data) => {
+            setBudget(data);
+            const allSpending = data.reduce((acc, budget) => acc.concat(budget.spendings), []);
+            setUserSpendings(allSpending);
+        }).finally(() => {
+            setIsLoading(false);
+        });
         console.log("budget : " + budget)
-        return budget;
     }
 
     useEffect(() => {
         processBudget();
     }, []);
+
+    if (isLoading) {
+        return <div>Loading...</div>;
+    }
 
     return (
         <div style={{height: "80vh", overflow: 'scroll'}} className={"w-full h-42 no-scrollbar"}>

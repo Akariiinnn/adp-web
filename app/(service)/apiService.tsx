@@ -25,7 +25,7 @@ export const handleSignup = async (e, formData): Promise<boolean> => {
 export const handleLogin = async (e, formData): Promise<boolean> => {
     e.preventDefault();
     try {
-        const response = await fetch('https://adpapi.loca.lt/auth/login', {
+        const response = await fetch('http://localhost:3001/auth/login', {
             credentials: "include",
             method: 'POST',
             headers: {
