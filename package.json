@@ -20,6 +20,7 @@
     "@gluestack-ui/themed": "latest",
     "@gluestack/ui-next-adapter": "latest",
     "@legendapp/motion": "latest",
+    "axios": "^1.7.2",
     "bootstrap": "^5.3.3",
     "next": "^13.5.4",
     "react": "18.2.0",

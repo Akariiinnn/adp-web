@@ -18,19 +18,18 @@ export interface User {
      revenus :  string
 }
 
-export interface Category {
-    ID: number;
+export interface Budget {
+    ID: string;
     name: string;
-    budget: string;
-    user_id: number;
+    budget: number;
+    spendings: Spending[];
+    totalSpending: number;
+    usedBudget: number;
 }
 
 export interface Spending {
     ID: number,
     name: string,
-    category_id: number,
-    value: string,
-    reccuring: string,
-    user_id: number,
-    createdat: string
+    amount: string,
+    recurrent: boolean,
 }
