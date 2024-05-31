@@ -12,34 +12,63 @@ import {
     Box,
     Center
 } from "@gluestack-ui/themed";
-import Cookies from "universal-cookie";
-const cookies = new Cookies();
+import {useRouter} from "next/navigation";
+import {handleLogin, handleSignup} from "@/app/(service)/apiService";
 
 
 const LoginForm = () => {
+    const router = useRouter()
 
     const [formData, setFormData] = useState({
         email: '',
         password: ''
     });
 
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
+    const handleInputChange = (e, name) => {
+        const { value } = e.target;
         setFormData({
             ...formData,
             [name]: value
         });
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        // Form submission logic
-    };
+    const processLogin = async (e) => {
+        if(await handleLogin(e, formData)) {
+            router.push("/")
+        }
+    }
+
+    // const handleSubmit = async (e) => {
+    //     e.preventDefault();
+    //     try {
+    //         const response = await fetch('https://adpapi.loca.lt/auth/login', {
+    //             credentials: "include",
+    //             method: 'POST',
+    //             headers: {
+    //                 'Content-Type': 'application/json'
+    //             },
+    //             body: JSON.stringify({
+    //                 email: formData.email,
+    //                 password: formData.password
+    //             })
+    //         });
+    //
+    //         if (response.ok) {
+    //             router.push("/");
+    //         } else {
+    //             console.error('Failed to register user');
+    //         }
+    //     } catch (error) {
+    //         console.error('Error:', error);
+    //     }
+    // };
+
+
 
     return (
         <Box>
             <Center>
-                <FormControl size="lg" mt="$10" onSubmit={handleSubmit}>
+                <FormControl size="lg" mt="$10" >
                     <Center><Heading color={"var(--foreground-rgb)"}>Se connecter</Heading></Center>
                     <VStack mt="$4">
                         <Text color={"var(--foreground-rgb)"}>Email</Text>
@@ -52,8 +81,7 @@ const LoginForm = () => {
                             <InputField
                                 color={"var(--foreground-rgb)"}
                                 id="email"
-                                onChange={handleInputChange}
-                                name="email"
+                                onChange={(e) => handleInputChange(e, "email")}
                             />
                         </Input>
                     </VStack>
@@ -68,8 +96,7 @@ const LoginForm = () => {
                             <InputField
                                 id="password"
                                 type="password"
-                                onChange={handleInputChange}
-                                name="password"
+                                onChange={(e) => handleInputChange(e, "password")}
                                 color={"var(--foreground-rgb)"}
                             />
                         </Input>
@@ -79,6 +106,7 @@ const LoginForm = () => {
                             action="primary"
                             isDisabled={false}
                             isFocusVisible={false}
+                            onPress={processLogin}
                             mt="$4">
                         <ButtonText>Se connecter</ButtonText>
                     </Button>

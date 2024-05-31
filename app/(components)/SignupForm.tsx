@@ -1,4 +1,3 @@
-"use client";
 import React from 'react';
 import { useRouter } from 'next/navigation'
 import {
@@ -13,20 +12,28 @@ import {
     Box,
     Center
 } from "@gluestack-ui/themed";
+import {handleSignup} from "@/app/(service)/apiService";
+
+
 
 const SignupForm = () => {
    const router = useRouter()
 
-    const [formData, setFormData] = React.useState({
+    const [formData , setFormData] = React.useState({
         username: '',
         email: '',
         password: '',
         confirm_password: ''
     });
 
+   const processSignup = async (e) => {
+       if(await handleSignup(e, formData)) {
+           router.push("/login")
+       }
+    }
+
     const handleInputChange = (e, name) => {
         const { value } = e.target;
-        console.log({name, value, e});
         setFormData({
             ...formData,
             [name]: value
@@ -41,32 +48,6 @@ const SignupForm = () => {
     };
 
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-
-        try {
-            const response = await fetch('http://localhost:3001/auth/register', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    username: formData.username,
-                    email: formData.email,
-                    password: formData.password
-                })
-            });
-
-            if (response.ok) {
-                router.push("/login");
-                console.log('User registered successfully');
-            } else {
-                console.error('Failed to register user');
-            }
-        } catch (error) {
-            console.error('Error:', error);
-        }
-    };
 
     return (
         <Box>
@@ -143,7 +124,7 @@ const SignupForm = () => {
                             isDisabled={false}
                             isFocusVisible={false}
                             mt="$4"
-                            onPress={handleSubmit}>
+                            onPress={processSignup}>
                         <ButtonText>S'inscrire</ButtonText>
                     </Button>
                 </FormControl>
