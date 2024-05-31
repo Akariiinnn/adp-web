@@ -27,16 +27,14 @@ import {
     SelectPortal,
     SelectTrigger
 } from "@gluestack-ui/themed";
-import {getBudget, putSpending} from "@/app/(service)/apiServiceCatSpe";
+import {getBudget, postCategory, putSpending} from "@/app/(service)/apiServiceCatSpe";
 
 
 
-const AddSpendings = () => {
+const AddCategory = () => {
     const [formData, setFormData] = React.useState({
         name: '',
-        category: '',
-        amount: 0,
-        recurrent: false
+        amount: 0
     });
     const [categories, setCategories] = React.useState([]);
 
@@ -49,24 +47,9 @@ const AddSpendings = () => {
         });
     };
 
-    const handleCheckboxChange = (e) => {
-        const {checked} = e.target;
-        setFormData({
-            ...formData,
-            recurrent: checked
-        });
-    }
-
-    const handleSelectChange = (value) => {
-        setFormData({
-            ...formData,
-            category: value
-        });
-    }
-
-    const processAddSpending = async () => {
+    const processAddCategory = async () => {
         console.log(formData);
-        if(await putSpending(formData.name, formData.category, formData.recurrent, formData.amount)) {
+        if(await postCategory(formData.name, formData.amount)) {
             location.reload()
         }
     }
@@ -100,55 +83,6 @@ const AddSpendings = () => {
                             onChange={(e) => handleInputChange(e, "name")}/>
                     </Input>
                 </Box>
-                {/*Category*/}
-                <Box px="$3">
-                    <FormControlLabel>
-                        <FormControlLabelText color={"var(--foreground-rgb)"}>Category</FormControlLabelText>
-                    </FormControlLabel>
-                    <Select
-                        onValueChange={handleSelectChange}
-                    >
-                        <SelectTrigger variant="outline" size="md">
-                            <SelectInput
-                                placeholder="Categorie"
-                            />
-                            <SelectIcon mr="$3">
-                                <Icon as={ChevronDownIcon}/>
-                            </SelectIcon>
-                        </SelectTrigger>
-                        <SelectPortal>
-                            <SelectBackdrop/>
-                            <SelectContent>
-                                <SelectDragIndicatorWrapper>
-                                    <SelectDragIndicator/>
-                                </SelectDragIndicatorWrapper>
-                                {categories.map((category) => (
-                                    <SelectItem label={category.name} value={category.id}/>
-                                ))}
-                            </SelectContent>
-                        </SelectPortal>
-                    </Select>
-                </Box>
-
-                {/*Recurrence*/}
-                <Box px="$3">
-                    <FormControlLabel>
-                        <FormControlLabelText color={"var(--foreground-rgb)"}>Recurrence</FormControlLabelText>
-                    </FormControlLabel>
-
-                    <Checkbox
-                        size="lg"
-                        pb="$0"
-                        isInvalid={false}
-                        isDisabled={false}
-                        onChange={handleCheckboxChange}>
-                        <CheckboxIndicator mr="$2">
-                            <CheckboxIcon as={CheckIcon}/>
-                        </CheckboxIndicator>
-                        <CheckboxLabel>Mensuelle</CheckboxLabel>
-                    </Checkbox>
-                </Box>
-
 
                 {/*Amount input*/}
                 <Box>
@@ -168,7 +102,6 @@ const AddSpendings = () => {
                     </Input>
                 </Box>
 
-
                 <Button
                     size="md"
                     variant="solid"
@@ -178,7 +111,7 @@ const AddSpendings = () => {
                     isDisabled={false}
                     isFocusVisible={false}
                     bg={"gray"}
-                    onPress={processAddSpending}
+                    onPress={processAddCategory}
                 >
                     <ButtonIcon as={AddIcon}/>
                 </Button>
@@ -188,4 +121,4 @@ const AddSpendings = () => {
     )
 };
 
-export default AddSpendings;
+export default AddCategory;

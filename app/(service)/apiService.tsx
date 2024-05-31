@@ -1,9 +1,10 @@
+import {config} from "@/app/(config)/config";
 
 export const handleSignup = async (e, formData): Promise<boolean> => {
     e.preventDefault();
 
     try {
-        const response = await fetch('http://localhost:3001/auth/register', {
+        const response = await fetch(`${config.API_URL}/auth/register`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -25,7 +26,7 @@ export const handleSignup = async (e, formData): Promise<boolean> => {
 export const handleLogin = async (e, formData): Promise<boolean> => {
     e.preventDefault();
     try {
-        const response = await fetch('http://localhost:3001/auth/login', {
+        const response = await fetch(`${config.API_URL}/auth/login`, {
             credentials: "include",
             method: 'POST',
             headers: {
@@ -43,3 +44,11 @@ export const handleLogin = async (e, formData): Promise<boolean> => {
         return false;
     }
 };
+
+export function getMe(){
+    return fetch(`${config.API_URL}/me`, {
+        credentials: 'include'
+    }).then((res) => {
+        return res.json();
+    })
+}

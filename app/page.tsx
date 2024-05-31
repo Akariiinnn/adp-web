@@ -1,13 +1,13 @@
 'use client';
-import React, {createContext, useEffect} from "react";
+import React, {createContext, useEffect, useState} from "react";
 import {Container} from "@/app/(components)/Container";
 
 import {Center} from "@gluestack-ui/themed";
-import Cookies from "universal-cookie";
+import {AuthenticationProvider} from "@/app/AuthenticationProvider";
 
 export default function Home() {
     return (
-        <AuthenticationProvider>
+        <AuthenticationProvider whileLoading={<h1>Loading...</h1>}>
             <main style={{padding: "30px"}}>
                 <Center>
                     <Container/>
@@ -15,19 +15,4 @@ export default function Home() {
             </main>
         </AuthenticationProvider>
     );
-}
-const AuthenticationContext = createContext({});
-
-function AuthenticationProvider({children}: { children: any }) {
-    const cookies = new Cookies().getAll();
-
-    useEffect(function(){
-        console.log(cookies);
-    }, []);
-
-    return (
-        <AuthenticationContext.Provider value={{}}>
-            {children}
-        </AuthenticationContext.Provider>
-    )
 }

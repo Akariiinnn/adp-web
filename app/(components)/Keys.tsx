@@ -1,9 +1,12 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import {VStack} from "@gluestack-ui/themed";
 import categories from '@/fakedata/categories.json'
 import spendings from '@/fakedata/spendings.json'
 import users from '@/fakedata/users.json'
 import {toFixedNumber} from "@react-stately/utils";
+import {useMe} from "@/app/AuthenticationProvider";
+import {Budget, Spending} from "@/app/(models)/types";
+import {getBudget} from "@/app/(service)/apiServiceCatSpe";
 
 const categoryColors = [
     "#FCFFA6",
@@ -15,26 +18,37 @@ const categoryColors = [
     "#C1AC95",
 ];
 
-const thisUser = 1;
-const user = users.find(user => user.ID === thisUser);
-const userBudget = user ? parseFloat(user.revenus) : 0;
-const userSpendings = spendings.filter((spending) => spending.user_id === thisUser);
-const spendingPerCategory = categories.map(category => {
-    const totalSpending = userSpendings
-        .filter(spending => spending.category_id === category.ID)
-        .reduce((sum, spending) => sum + parseFloat(spending.value), 0);
-    return {...category, totalSpending};
-})
-
 export default function Keys() {
+    const me = useMe();
+    const [foregroundColor, setForegroundColor] = React.useState("var(--foreground-rgb)");
+    const [budget, setBudget] = React.useState<Budget[]>([]);
+    const [isLoading, setIsLoading] = React.useState<boolean>(true);
+
+    const processBudget = () => {
+        let date = new Date();
+        let day = date.getDate();
+        let month = date.getMonth() + 1;
+        let year = date.getFullYear();
+        getBudget(`${year}-${month}-${day}`).then((data) => {
+            setBudget(data);
+        }).finally(() => {
+            setIsLoading(false);
+        });
+        console.log("budget : " + budget)
+    }
+
+    useEffect(() => {
+        processBudget();
+    }, []);
+
     return (
         <VStack>
-            {spendingPerCategory.map((category) => {
-                const percentage = userBudget ? (category.totalSpending / userBudget * 100).toFixed(2) : 0;
+            {budget.map((category, i: number) => {
+                const percentage = me.revenue ? (category.budget / me.revenue * 100).toFixed(2) : 0;
                 return (
-                    <div key={category.ID} style={{display: "inline-flex", alignItems: "center", marginBottom: "10px"}}>
+                    <div key={category.id} style={{display: "inline-flex", alignItems: "center", marginBottom: "10px"}}>
                         <div style={{
-                            backgroundColor: categoryColors[category.ID - 1],
+                            backgroundColor: categoryColors[i],
                             width: 20,
                             height: 20,
                             marginRight: 10,
