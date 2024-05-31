@@ -1,8 +1,9 @@
-import React from "react";
+import React, {useEffect} from "react";
 import spendings from "@/fakedata/spendings.json";
 import {Card, Heading, Text, VStack} from "@gluestack-ui/themed";
 import categories from '@/fakedata/categories.json';
-import { Category, Spending } from '@/app/(models)/types';
+import {Budget, Spending} from '@/app/(models)/types';
+import {getBudget} from "@/app/(service)/apiServiceCatSpe";
 
 const categoryColors = [
     "#FCFFA6",
@@ -16,15 +17,21 @@ const categoryColors = [
 
 const thisUser = 1;
 
-const userSpendings: Spending[] = spendings.filter((spending: Spending) => spending.user_id === thisUser);
-
-const categoriesItems: Category[] = categories;
-
-function findItemById(id: number): Category {
-    return categoriesItems.find((item) => item.ID === id) as Category;
-}
-
 function SpendingList() {
+
+    const [budget, setBudget] = React.useState<Budget[]>([]);
+    const [userSpendings, setUserSpendings] = React.useState<Spending[]>([]);
+
+    const processBudget = async () => {
+        setBudget(await getBudget("2021-10-01"));
+        setUserSpendings(budget[0].spendings);
+        console.log("budget : " + budget)
+        return budget;
+    }
+
+    useEffect(() => {
+        processBudget();
+    }, []);
 
     return (
         <div style={{height: "80vh", overflow: 'scroll'}} className={"w-full h-42 no-scrollbar"}>
@@ -33,15 +40,15 @@ function SpendingList() {
                     <Card size={"md"} variant={"elevated"} m={"$3"}>
                         <Heading mb={"$1"}>{spending.name}</Heading>
                         <div style={{display: "flex", justifyContent: "space-between"}}>
-                            <Text size={"sm"} color={"red"}>{spending.value}€</Text>
+                            <Text size={"sm"} color={"red"}>{spending.amount}€</Text>
                             <div style={{
-                                backgroundColor: categoryColors[spending.category_id - 1],
+                                backgroundColor: categoryColors[2],
                                 borderRadius: "30px",
                                 paddingLeft: "5px",
                                 paddingRight: "5px"
                             }}>
                                 <Text color="night" size={"md"}>
-                                    {findItemById(spending.category_id).name}
+                                    {budget[0].name}
                                 </Text>
                             </div>
                         </div>
